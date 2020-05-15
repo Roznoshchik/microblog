@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block style %}
+   
+      <!-- Custom styles for this template -->
+      <link href="{{ url_for('static', filename='floating-labels.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="row signinbody">
+    <form class="form-signin" action = "" method="post" novalidate>
+        <div class="text-center mb-4">
+            <h1>Sign In</h1>
+            {{ form.hidden_tag() }}
+        </div>
+
+        
+        <div class="form-label-group">
+            {{ form.username( class="form-control", placeholder="Username", autofocus=true) }}
+            {{ form.username.label }}
+            {% for error in form.username.errors %}
+                <div class="alert alert-danger" role="alert">
+                {{ error }}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="form-label-group">
+            {{ form.password(class="form-control", placeholder="Password") }}
+            {{ form.password.label }}
+            {% for error in form.password.errors %}
+            <div class="alert alert-danger" role="alert">
+            {{ error }}
+            </div>
+        {% endfor %}
+        </div>
+        <div class="checkbox mb-3">
+            {{ form.remember_me() }} {{ form.remember_me.label }}
+        </div>
+        <p>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>    
+        </p>
+    </form>
+</div>
+
+{% endblock %}
