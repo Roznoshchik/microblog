@@ -7,7 +7,8 @@
         {% endif %}
         {% block style %}{% endblock %}
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    </head>
+        <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+      </head>
     <body>
         <div class="container">
             <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -21,28 +22,51 @@
                     <li class="nav-item ">
                       <a class="nav-link" href="{{ url_for('index') }}">Home </a>
                     </li>
+                    {% if current_user.is_anonymous %}
                     <li class="nav-item">
                       <a class="nav-link" href="{{ url_for('login') }}">Login</a>
                     </li>
+                    {% else %}
+                    <li class="nav-item">
+                      <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                    {% endif %}
                   </ul>
                   
                 </div>
               </nav>
               <hr>
-              {% with messages = get_flashed_messages() %}
-              {% if messages %}
-                <div class="alert alert-info alert-dismissible fade show" role="alert">
-                  <ul>
-                    {% for message in messages %}
-                      <li>{{ message }}</li>
-                    {% endfor %}
-                  </ul>
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-              {% endif %}
-              {% endwith %}
+              <div class="flash-messages">
+
+                {% with messages = get_flashed_messages(category_filter=["message"]) %}
+                {% if messages %}
+                  <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <ul>
+                      {% for message in messages %}
+                        <li>{{ message }}</li>
+                      {% endfor %}
+                    </ul>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                {% endif %}
+                {% endwith %}
+                {% with errors = get_flashed_messages(category_filter=['error']) %}
+                {% if errors %}
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <ul>
+                      {% for error in errors %}
+                        <li>{{ error }}</li>
+                      {% endfor %}
+                    </ul>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                {% endif %}
+                {% endwith %}
+              </div>
             {% block content %}{% endblock %}
         </div>
         <!-- Optional JavaScript -->
