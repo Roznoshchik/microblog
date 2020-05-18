@@ -1,3 +1,12 @@
 .flash-messages{
     padding-top: 4rem;
 }
+
+.error-actions{
+    padding-top: 1rem;
+}
+
+.error-template{
+    padding-top: 4rem;
+    text-align: center;
+}
