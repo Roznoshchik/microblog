@@ -130,9 +130,11 @@ def callback():
     if user is None:
         db.session.add(newuser)
         db.session.commit()
-        user = User.query.filter_by(username=users_email).first()
-            
-    login_user(user)
+        user = User.query.filter_by(googid=unique_id).first()
+        login_user(user)
+    
+    if user is not None:
+        login_user(user)
     return redirect(url_for("index"))
 
 
