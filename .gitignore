@@ -6,6 +6,8 @@ __pycache__/
 #ssl stuff - not sure this should be added here or not. 
 *.pem
 
+#not sure the db should be stored as it holds google unique ids
+*.db
 
 
 # C extensions
