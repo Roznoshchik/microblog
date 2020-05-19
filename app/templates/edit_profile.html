@@ -17,16 +17,16 @@
                 {{ form.username( class="form-control", placeholder="Username") }}
                 {{ form.username.label }}
                 {% for error in form.username.errors %}
-                <div class="alert alert-danger" role="alert">
-                {{ error }}
-                </div>
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
                 {% endfor %}
                 
                 
             </div>
             <div class="form-label-group">
                 {{ form.about_me(class="form-control", placeholder="About me") }}
-                
+
                 {% for error in form.about_me.errors %}
                 <div class="alert alert-danger" role="alert">
                 {{ error }}
