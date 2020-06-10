@@ -10,3 +10,11 @@
     padding-top: 4rem;
     text-align: center;
 }
+
+.blogpost{
+    padding-bottom: 16px;
+}
+
+.blogpost td{
+    padding-right: 8px;
+}

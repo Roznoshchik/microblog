@@ -9,13 +9,43 @@
 <div class="row">
     <div class="col-md-8 blog-main">
         <h3 class="pb-4 mb-4 font-italic border-bottom">Hello, {{ current_user.username }}!</h3>
+       {% if form %}
+       
+        <form action="" method="post">
+           {{ form.hidden_tag() }}
+           <p>
+               {{ form.post.label }}<br>
+               {{ form.post(cols=32, rows=4) }}<br>
+               {% for error in form.post.errors %}
+                <div class="alert alert-danger" role="alert">
+                {{ error }}
+
+                </div>
+                {% endfor %}
+           </p>
+           <p>{{ form.submit() }}</p>
+       </form>
+       {% endif %}
+       
+    
         {% for post in posts %}
-            <div class="blogpost">
-                <p>
-                    {{ post.author.username }} says: <b>{{ post.body }}</b>
-                </p>
-            </div>
+            {% include '_post.html' %}
         {% endfor %}
+
+        <ul class="pagination">
+            {% if prev_url %}
+            <li class="page-item">
+                <a href= "{{ prev_url }}" class="page-link"><span aria-hidden="true">&laquo;</span> Newer posts</a>
+            </li>
+            {% endif %}
+    
+            {% if next_url %}
+            <li class="page-item">
+                <a class = "page-link" href="{{ next_url }}">Older posts <span aria-hidden="true">&raquo;</span> </a>
+            </li>
+            {% endif %}
+        </ul>
+        
     </div>
 </div>
 {% endblock %}

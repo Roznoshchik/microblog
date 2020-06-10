@@ -30,6 +30,8 @@
         <div class="form-label-group">
             {{ form.password(class="form-control", placeholder="Password") }}
             {{ form.password.label }}
+                <a class ="small" href="{{ url_for('reset_password_request') }}">Forgot your password?</a>
+            
             {% for error in form.password.errors %}
             <div class="alert alert-danger" role="alert">
             {{ error }}
