@@ -1,5 +1,5 @@
 from flask import render_template, flash, redirect, url_for
-from app import app, db
+from app import app, db, moment
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, EmptyForm, PostForm, ResetPasswordRequestForm, ResetPasswordForm
 from app.email import send_password_reset_email
 from flask_login import current_user, login_user, logout_user, login_required
@@ -192,9 +192,13 @@ def user(username):
         if posts.has_prev else None
     form=EmptyForm()
 
+    
+    timestamp = moment.create(user.last_seen).fromNow()
+    timestamp = timestamp.replace('display: none', 'display: block')
+    #timestamp = str(timestamp)
 
     return render_template('user.html', user=user, posts=posts.items,
-                            form=form, next_url=next_url, prev_url=prev_url)
+                            form=form, next_url=next_url, prev_url=prev_url, date=timestamp)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required

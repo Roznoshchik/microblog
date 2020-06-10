@@ -1,84 +1,98 @@
-<html>
-    <head>
-        {% if title %}
-        <title>{{ title }} - Microblog</title>
-        {% else %}
-        <title>Welcome to Microblog!</title>
-        {% endif %}
-        {% block style %}{% endblock %}
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-        <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
-      </head>
-    <body>
-        <div class="container">
-            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-                <a class="navbar-brand" href="{{ url_for('index') }}">Microblog</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-              
-                <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-                  <ul class="navbar-nav mr-auto">
-                    <li class="nav-item ">
-                      <a class="nav-link" href="{{ url_for('index') }}">Home </a>
-                    </li>
-                    <li class="nav-item ">
-                      <a class="nav-link" href="{{ url_for('explore') }}">Explore </a>
-                    </li>
-                    {% if current_user.is_anonymous %}
-                    <li class="nav-item">
-                      <a class="nav-link" href="{{ url_for('login') }}">Login</a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                      <a class="nav-link" href="{{ url_for('user', username=current_user.username) }}">Profile</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
-                    </li>
-                    {% endif %}
-                  </ul>
-                  
-                </div>
-              </nav>
-              <hr>
-              <div class="flash-messages">
+{% extends 'bootstrap/base.html' %}
 
-                {% with messages = get_flashed_messages(category_filter=["message"]) %}
-                {% if messages %}
-                  <div class="alert alert-info alert-dismissible fade show" role="alert">
-                    <ul>
-                      {% for message in messages %}
-                        <li>{{ message }}</li>
-                      {% endfor %}
-                    </ul>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                {% endif %}
-                {% endwith %}
-                {% with errors = get_flashed_messages(category_filter=['error']) %}
-                {% if errors %}
-                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <ul>
-                      {% for error in errors %}
-                        <li>{{ error }}</li>
-                      {% endfor %}
-                    </ul>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                {% endif %}
-                {% endwith %}
-              </div>
-            {% block content %}{% endblock %}
+{% block title %}
+  {% if title %}
+  {{ title }} - Microblog
+  {% else %}
+  Welcome to Microblog!
+  {% endif %}
+{% endblock %}
+
+{% block styles %}
+  {{ super() }}
+  <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+  
+  {% block app_style %}{% endblock %}
+  
+{% endblock %}
+        
+{% block navbar %}
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="{{ url_for('index') }}">Microblog</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class=" collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item ">
+          <a class="nav-link" href="{{ url_for('index') }}">Home </a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href="{{ url_for('explore') }}">Explore </a>
+        </li>
+        {% if current_user.is_anonymous %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('user', username=current_user.username) }}">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+{% endblock %}
+     
+{% block content %}
+  <div class="container">
+        <div class="flash-messages">
+
+          {% with messages = get_flashed_messages(category_filter=["message"]) %}
+          {% if messages %}
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+              <ul>
+                {% for message in messages %}
+                  <li>{{ message }}</li>
+                {% endfor %}
+              </ul>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% endif %}
+          {% endwith %}
+          {% with errors = get_flashed_messages(category_filter=['error']) %}
+          {% if errors %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <ul>
+                {% for error in errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% endif %}
+          {% endwith %}
         </div>
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    </body>
-</html>
+      {% block app_content %}{% endblock %}
+  </div>
+{% endblock %}   
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  {{ super() }}
+  {{ moment.include_moment() }}
+  <script>
+    $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+  </script>
+  
+
+{% endblock %}    
