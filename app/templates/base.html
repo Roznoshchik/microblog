@@ -93,6 +93,22 @@
     $('[data-toggle="tooltip"]').tooltip()
   })
   </script>
+
+  <!-- translation function -->
+  <script>
+    function translate(sourceElem, destElem, sourceLang, destLang){
+      $(destElem).html('<img src="{{ url_for('static', filename='loading.gif') }}">');
+      $.post('/translate', {
+        text: $(sourceElem).text(),
+        source_language: sourceLang,
+        dest_language: destLang
+      }).done(function(response){
+        $(destElem).text(response['text'])
+      }).fail(function(){
+        $(destElem).text('Error: could not contact server');
+      });
+    }
+  </script>
   
 
 {% endblock %}    
