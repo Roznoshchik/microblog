@@ -12,7 +12,7 @@
     <form class="form-signin" action = "" method="post" novalidate>
         <div class="text-center mb-4">
             <h1>Sign In</h1>
-            <a class="button" href="/goog"><img src="{{ url_for('static', filename='btn_google_signin_dark_normal_web.png') }}" /></a>
+            <a class="button" href="{{ url_for('auth.goog') }}"><img src="{{ url_for('static', filename='btn_google_signin_dark_normal_web.png') }}" /></a>
             <p></p>
             <p>or</p>
             {{ form.hidden_tag() }}
@@ -31,7 +31,7 @@
         <div class="form-label-group">
             {{ form.password(class="form-control", placeholder="Password") }}
             {{ form.password.label }}
-                <a class ="small" href="{{ url_for('reset_password_request') }}">Forgot your password?</a>
+                <a class ="small" href="{{ url_for('auth.reset_password_request') }}">Forgot your password?</a>
             
             {% for error in form.password.errors %}
             <div class="alert alert-danger" role="alert">
@@ -46,7 +46,7 @@
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>    
         </p>
         <p>
-            <br>New User? <a href = "{{ url_for('register') }}" >Register here!</a>    
+            <br>New User? <a href = "{{ url_for('auth.register') }}" >Register here!</a>    
         </p>
     </form>
 </div>

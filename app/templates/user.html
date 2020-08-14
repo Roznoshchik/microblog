@@ -22,17 +22,17 @@
                 <p>{{ user.followers.count() }} followers, {{ user.followed.count() }} following.</p> 
                 
                 {% if user == current_user %}
-                    <p><a href="{{ url_for('edit_profile') }}">Edit your profile</a></p>
+                    <p><a href="{{ url_for('main.edit_profile') }}">Edit your profile</a></p>
                 {% elif not current_user.is_following(user) %}
                     <p>
-                        <form action="{{ url_for('follow', username = user.username) }}" method="post">
+                        <form action="{{ url_for('main.follow', username = user.username) }}" method="post">
                             {{ form.hidden_tag() }}
                             {{ form.submit(class="btn btn-md btn-primary", value='Follow') }}
                         </form>
                     </p>
                 {% else %}
                     <p>
-                        <form action="{{ url_for('unfollow', username = user.username) }}" method="post">
+                        <form action="{{ url_for('main.unfollow', username = user.username) }}" method="post">
                             {{ form.hidden_tag() }}
                             {{ form.submit(class="btn btn-md btn-primary", value='Unfollow') }}
                         </form>
@@ -46,7 +46,7 @@
     <hr>
     {% for post in posts %}
     {% include '_post.html' %}
-    {% endfor%}    
+    {% endfor %}    
     
     <ul class="pagination">
         <li class="page-item {% if not prev_url %} disabled{% endif %}">

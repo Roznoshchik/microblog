@@ -18,7 +18,7 @@
         
 {% block navbar %}
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="{{ url_for('index') }}">Microblog</a>
+    <a class="navbar-brand" href="{{ url_for('main.index') }}">Microblog</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -26,21 +26,21 @@
     <div class=" collapse navbar-collapse" id="navbarsExampleDefault">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item ">
-          <a class="nav-link" href="{{ url_for('index') }}">Home </a>
+          <a class="nav-link" href="{{ url_for('main.index') }}">Home </a>
         </li>
         <li class="nav-item ">
-          <a class="nav-link" href="{{ url_for('explore') }}">Explore </a>
+          <a class="nav-link" href="{{ url_for('main.explore') }}">Explore </a>
         </li>
         {% if current_user.is_anonymous %}
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+          <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
         </li>
         {% else %}
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('user', username=current_user.username) }}">Profile</a>
+          <a class="nav-link" href="{{ url_for('main.user', username=current_user.username) }}">Profile</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+          <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
         </li>
         {% endif %}
       </ul>
