@@ -5,7 +5,7 @@ import uuid
 
 def translate(text, source_language, dest_language):
     if 'MS_TRANSLATOR_KEY' not in current_app.config or \
-            not app.config['MS_TRANSLATOR_KEY']:
+            not current_app.config['MS_TRANSLATOR_KEY']:
         return 'ERROR: the translation service is not configured.'
 
     auth = {
@@ -25,7 +25,7 @@ def translate(text, source_language, dest_language):
         return ['Error: the translation service failed.', r]
     r=r.json()
    
-    return r
+    return r[0]['translations'][0]
     #return json.loads(r.content.decode('utf-8-sig'))
 
 

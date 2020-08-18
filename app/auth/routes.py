@@ -8,7 +8,6 @@ from app.models import User
 from flask import request
 from werkzeug.urls import url_parse
 import requests
-from oauthlib.oauth2 import WebApplicationClient
 import json
 
 def get_google_provider_cfg():
@@ -41,9 +40,8 @@ def logout():
 def goog():
     google_provider_cfg = get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
-    client = WebApplicationClient(current_app.config['GOOGLE_CLIENT_ID']) 
     
-    request_uri = client.prepare_request_uri(
+    request_uri = current_app.client.prepare_request_uri(
         authorization_endpoint,
         redirect_uri=request.base_url + "/callback",
         scope = ["openid", "email", "profile"],
@@ -62,9 +60,8 @@ def callback():
     token_endpoint = google_provider_cfg["token_endpoint"]
 
     # Prepare and send request to get tokens! Yay tokens!
-    client = WebApplicationClient(current_app.config['GOOGLE_CLIENT_ID']) 
 
-    token_url, headers, body = client.prepare_token_request(
+    token_url, headers, body = current_app.client.prepare_token_request(
         token_endpoint,
         authorization_response=request.url,
         redirect_url=request.base_url,
@@ -78,13 +75,13 @@ def callback():
     )
 
     # Parse the tokens!
-    client.parse_request_body_response(json.dumps(token_response.json()))
+    current_app.client.parse_request_body_response(json.dumps(token_response.json()))
     
     # Now that we have tokens (yay) let's find and hit URL
     # from Google that gives you user's profile information,
     # including their Google Profile Image and Email
     userinfo_endpoint = google_provider_cfg["userinfo_endpoint"]
-    uri, headers, body = client.add_token(userinfo_endpoint)
+    uri, headers, body = current_app.client.add_token(userinfo_endpoint)
     userinfo_response = requests.get(uri, headers=headers, data=body)
 
     # We want to make sure their email is verified.
